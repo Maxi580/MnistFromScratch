@@ -1,16 +1,11 @@
 import numpy as np
 
-
-def clip_gradients(grad, clip_value=1):
-    return np.clip(grad, -clip_value, clip_value)
-
-
 class HiddenLayer:
     def __init__(self, input_size, output_size, activation_function, activation_function_derivative):
         self.W = np.random.randn(output_size, input_size) * np.sqrt(2. / input_size)
         self.activation = activation_function
         self.activation_derivative = activation_function_derivative
-        self.b = np.zeros((output_size, 1))
+        self.b = np.random.randn(output_size, 1) * 0.01
         self.Z = None
         self.A = None
 

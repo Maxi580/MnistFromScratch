@@ -5,12 +5,12 @@ from OutputLayer import OutputLayer
 import ActivationFunctions as AF
 
 
-def compute_cost(A, Y):
+def compute_loss(A, Y):
     """measuring how far off your model's predictions are from the true values"""
     m = Y.shape[1]
     epsilon = 1e-15
-    cost = -1 / m * np.sum(Y * np.log(A + epsilon))
-    return cost
+    loss = -1 / m * np.sum(Y * np.log(A + epsilon) + (1 - Y) * np.log(1 - A + epsilon))
+    return loss
 
 
 class NeuralNetwork:
@@ -47,12 +47,12 @@ class NeuralNetwork:
     def train(self, X, Y, epochs, learning_rate, decay_rate):
         for epoch in range(epochs):
             A = self.forward(X)
-            cost = compute_cost(A, Y)
+            loss = compute_loss(A, Y)
             self.backward(Y, learning_rate)
 
             if epoch % 100 == 0:
                 learning_rate *= decay_rate
-                print(f"Epoch {epoch}, Cost: {cost}")
+                print(f"Epoch {epoch}, Loss: {loss}")
 
     def predict(self, X):
         A = self.forward(X)
