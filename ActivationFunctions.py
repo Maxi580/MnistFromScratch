@@ -31,13 +31,6 @@ def softmax(x):
     return e_x / np.sum(e_x, axis=0, keepdims=True)
 
 
-def softmax_derivative(x):
-    # Note: This is a simplification. The true Jacobian of softmax is more complex.
-    # This simplification works when used with cross-entropy loss.
-    s = softmax(x)
-    return s * (1 - s)
-
-
 def leaky_relu(x, a=0.01):
     return np.where(x > 0, x, a * x)
 

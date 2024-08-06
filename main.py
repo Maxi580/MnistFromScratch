@@ -10,6 +10,7 @@ X_test = X_test.reshape(-1, 28 * 28) / 255.0
 y_train = np.eye(10)[y_train]
 y_test = np.eye(10)[y_test]
 
+# one-dimensional array with 784 elements, each value corresponds to a pixel
 input_shape = (784,)
 hidden_layer_cnt = 3
 hidden_layer_neuron_cnt = 256
@@ -21,13 +22,16 @@ nn = NeuralNetwork(input_shape, hidden_layer_cnt, hidden_layer_neuron_cnt,
 # Train the model
 epochs = 1000
 learning_rate = 0.001
-decay_rate = 0.99
-nn.train(X_train, y_train, epochs, learning_rate, decay_rate)
+drop_factor = 0.95
+batch_size = 2048  # There are 60.000 Images in The Dataset, on each Epoch we use batch_size amount
+epoch_drop = 500
+nn.train(X_train, y_train, epochs, learning_rate, drop_factor, epoch_drop, batch_size)
 
 
 # Evaluate the model
 def accuracy(predictions, labels):
     return np.mean(np.argmax(predictions, axis=1) == np.argmax(labels, axis=1))
+
 
 train_predictions = nn.forward(X_train)
 test_predictions = nn.forward(X_test)
